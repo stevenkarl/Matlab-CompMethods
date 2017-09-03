@@ -68,15 +68,27 @@ function [ output_args ] = Rides_FromDen( n_lat,n_lon,D_lat,D_lon, topomat)
 [n,m] = get_coords(n_lat,n_lon);
 plot3(n,m,topomat(n,m),'k.','MarkerSize',50); 
 
+%step b
 step = 0.01/(sqrt(2));
 Denver_vec = [D_lat,D_lon];
-dest_vec = [n_lat, n_lon]; 
-dirc_vec = Denver_vec - dest_vec;
-t = 0:step:n_lat;
-line = Denver_vec + t(dirc_vec); 
- 
-scatter3(t,line,0)
+dest_vec = [n_lat, n_lon];
+
+%lat steps 
+if n_lat > 0
+    t_lat = D_lat:step:n_lat;
+else
+    t_lat = D_lat:-step:n_lat;
+end
+%lon steps 
+if n_lon > 0 
+    t_lon = D_lon:step:n_lon;
+else
+    t_lon = D_lon:-step:n_lon;
+end 
+
 beta = 100;
+
+
 %distance_vector = 1:step:
 %horiz_dis_trvl = beta * (i - 1) * delta * sqrt(2); 
 
