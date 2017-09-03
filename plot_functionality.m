@@ -55,8 +55,8 @@ elseif lon < lonmin || lon > lonmax
         j = -999;
         fprintf('longitude out of bounds')
 else
-    i = floor((lat - latmin)/dlat)+1
-    j = floor((lon - lonmin)/dlon)+1
+    i = floor((lat - latmin)/dlat)+1;
+    j = floor((lon - lonmin)/dlon)+1;
 end 
 end
 
@@ -66,15 +66,21 @@ function [ output_args ] = Rides_FromDen( n_lat,n_lon,D_lat,D_lon, topomat)
 
 %step a
 [n,m] = get_coords(n_lat,n_lon);
-plot3(n,m,alt_ft(n,m),'k.','MarkerSize',50); 
+plot3(n,m,topomat(n,m),'k.','MarkerSize',50); 
 
+step = 0.01/(sqrt(2));
+Denver_vec = [D_lat,D_lon];
+dest_vec = [n_lat, n_lon]; 
+dirc_vec = Denver_vec - dest_vec;
+t = 0:step:n_lat;
+line = Denver_vec + t(dirc_vec); 
+ 
+scatter3(t,line,0)
+beta = 100;
+%distance_vector = 1:step:
+%horiz_dis_trvl = beta * (i - 1) * delta * sqrt(2); 
 
 %{
-step = 0.01/(sqrt(2)); 
-beta = 100;
-distance_vector = 1:step:
-horiz_dis_trvl = beta * (i - 1) * delta * sqrt(2);  
-
 %ride avg altitude
 ride_avg_alt = (1/n)*(sum(alt_ft));
 
