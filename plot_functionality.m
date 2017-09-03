@@ -12,7 +12,7 @@ zlabel('z - axis');
 hold on;
 [i,j] = get_coords(39.7392,-104.9903);
 plot3(i,j,alt_ft(i,j),'k.','MarkerSize',50);
-Rides_FromDen(38,-106,39.7392,-104.9903,alt_ft); 
+Rides_FromDen(100,100,39.7392,-104.9903,alt_ft); 
 hold off;
 end
 
@@ -103,8 +103,9 @@ d = beta * ((dest_vec(1,:)) - 1) * step * sqrt(2);
 display(d); 
 
 %part d
-
-alts = topomat(get_coords(dest_vec)); 
+for i = 1:abs(n_lat) 
+    alts = topomat(get_coords(dest_vec(1,i),dest_vec(2,i))); 
+end
 size(alts)
 %part e 
 %ride avg altitude
@@ -115,17 +116,11 @@ display(ride_avg_alt);
 %total altitude gained
 for i = 2:abs(n_lat)
     if(alts(i,:) > alts(i-1))
-        dz = sum(z_i + z_i_prev);
+        dz = sum(i + (i-1));
     end 
-end 
-%{
-
-%total altitude gained
-for i = 2:1:n
-    dz = sum(z_i + z_i_prev); 
 end 
 
 %running average altitude along the trip
 run_avg_alt = alt_i + (1/(i+1)) * (z_i_next - alt_i)
-%}
+
 end
