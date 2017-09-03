@@ -69,32 +69,56 @@ function [ output_args ] = Rides_FromDen( n_lat,n_lon,D_lat,D_lon, topomat)
 plot3(n,m,topomat(n,m),'k.','MarkerSize',50); 
 
 %step b
+beta = 100;
 step = 0.01/(sqrt(2));
-Denver_vec = [D_lat,D_lon];
-dest_vec = [n_lat, n_lon];
+D_vec = [D_lat,D_lon];
+dest_vec = zeros(2,abs(n_lat));
 
 %lat steps 
-if n_lat > 0
-    t_lat = D_lat:step:n_lat;
+if n_lat < 0
+    for i = 1:abs(n_lat)
+        dest_vec(1,i) = D_lat + ( i*(-step));
+    end
 else
-    t_lat = D_lat:-step:n_lat;
+    for i = 1:abs(n_lat) 
+        dest_vec(1,i) = D_lat + (i *step); 
+    end
 end
 %lon steps 
-if n_lon > 0 
-    t_lon = D_lon:step:n_lon;
+if n_lon < 0 
+    for i = 1:abs(n_lon)
+        dest_vec(2,i) = D_lon + ( i*(-step));
+    end
 else
-    t_lon = D_lon:-step:n_lon;
+    for i = 1:abs(n_lon)
+        dest_vec(2,i) = D_lon + ( i*(-step));
+    end
 end 
 
-beta = 100;
+display(dest_vec); 
 
+%part c
 
-%distance_vector = 1:step:
-%horiz_dis_trvl = beta * (i - 1) * delta * sqrt(2); 
+d = beta * ((dest_vec(1,:)) - 1) * step * sqrt(2); 
+display(d); 
 
-%{
+%part d
+
+alts = topomat(get_coords(dest_vec)); 
+size(alts)
+%part e 
 %ride avg altitude
-ride_avg_alt = (1/n)*(sum(alt_ft));
+ride_avg_alt = (1/abs(n_lat))*(sum(alts));
+display(ride_avg_alt); 
+
+%part f
+%total altitude gained
+for i = 2:abs(n_lat)
+    if(alts(i,:) > alts(i-1))
+        dz = sum(z_i + z_i_prev);
+    end 
+end 
+%{
 
 %total altitude gained
 for i = 2:1:n
